@@ -1,0 +1,90 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Client.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="Client.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Classes="main-window"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Client"
+        RequestedThemeVariant="Light">
+
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+    <Grid Classes="root-layout">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Classes="toolbar-layout">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <TextBox Grid.Column="0"
+                     Classes="server-input"
+                     Text="{Binding ServerIp, Mode=TwoWay}"></TextBox>
+
+            <Button Grid.Column="1"
+                    Classes="action-button primary-action"
+                    Command="{Binding OpenConnectionCommand}"
+                    Content="Open Connection"></Button>
+            <Button Grid.Column="2"
+                    Classes="action-button secondary-action"
+                    Command="{Binding RequestVersionCommand}"
+                    Content="Request version"></Button>
+            <Button Grid.Column="3"
+                    Classes="action-button danger-action"
+                    Command="{Binding CloseConnectionCommand}"
+                    Content="Close Connection"></Button>
+        </Grid>
+
+        <TextBlock Grid.Row="1"
+                   Classes="version-card"
+                   Text="{Binding Version}"></TextBlock>
+
+        <ScrollViewer Grid.Row="2" Classes="log-panel">
+            <SelectableTextBlock Classes="log-output"
+                                 Text="{Binding Log}"
+                                 TextWrapping="Wrap"></SelectableTextBlock>
+        </ScrollViewer>
+
+        <ItemsControl Grid.Row="0" Grid.RowSpan="3"
+                      Classes="notifications-host"
+                      ItemsSource="{Binding Notifications.Notifications}">
+
+            <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="vm:NotificationViewModel">
+                    <Border Classes="notification-card"
+                            Opacity="{Binding Opacity}"
+                            Background="{Binding Background}"
+                            BorderBrush="{Binding BorderBrush}">
+                        <Border.Transitions>
+                            <Transitions>
+                                <DoubleTransition Property="Opacity"
+                                                  Duration="0:0:0.25" />
+                            </Transitions>
+                        </Border.Transitions>
+                        <StackPanel Classes="notification-stack">
+                            <TextBlock Classes="notification-title"
+                                       Text="{Binding Title}" />
+                            <TextBlock Classes="notification-message"
+                                       Text="{Binding Message}" />
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
+
+</Window>

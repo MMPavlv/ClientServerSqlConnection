@@ -1,0 +1,7 @@
+<Solution>
+  <Folder Name="/Элементы решения/">
+    <File Path="README.md" />
+  </Folder>
+  <Project Path="Client/Client.csproj" Id="6e3b0551-296b-4e58-80f6-a24166a62d3b" />
+  <Project Path="Server/Server.csproj" />
+</Solution>
